@@ -103,7 +103,13 @@
 
 ;; Org
 (use-package org
-  :bind ("C-c a" . org-agenda)
+  :commands org-refile
+  :bind (("C-c a" . org-agenda)
+	 ("C-c o" . my-org-jump))
+  :init
+  (defun my-org-jump ()
+    (interactive)
+    (org-refile '(GOTO)))
   :config
   (progn
     (setq org-file-apps '((auto-mode . emacs)
