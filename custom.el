@@ -8,7 +8,7 @@
     ("~/notes/Inbox.org" "~/notes/Support.org" "~/notes/Projects.org" "~/.org-jira/")))
  '(package-selected-packages
    (quote
-    (org-jira counsel-projectile projectile expand-region zerodark-theme use-package))))
+    (evil-leader evil worf org-jira counsel-projectile projectile expand-region zerodark-theme use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

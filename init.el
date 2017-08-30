@@ -43,6 +43,14 @@
       (setq frame-title-format '(buffer-file-name "%f" ("%b"))))))
 
 (temp-buffer-resize-mode)
+;; Evil
+(use-package evil
+  :config
+  (use-package evil-leader)
+  (setq evil-leader/in-all-states 1)
+  (evil-leader/set-leader "<SPC>")
+  (global-evil-leader-mode)
+  (evil-mode 1))
 
 ;; Editor
 (use-package autorevert
@@ -68,18 +76,18 @@
 
 (use-package counsel
   :demand t
-  :bind (("M-x" . counsel-M-x)
-	 ("C-x x" . counsel-M-x)
-	 ("C-x C-f" . counsel-find-file)
-	 ("C-x d" . counsel-dired-jump)
-	 ("C-s" . swiper)
-	 ("C-h a" . counsel-apropos)
-	 ("C-h f" . counsel-describe-function)
-	 ("C-h v" . counsel-describe-variable)
-	 ("C-h i" . counsel-info-lookup-symbol)
-	 ("C-c g" . counsel-git)
-	 ("M-i" . counsel-imenu)
-	 ("M-y" . counsel-yank-pop)))
+  :config (progn
+	    (evil-leader/set-key
+	      "x" 'counsel-M-x
+	      "f" 'counsel-find-file
+	      "s" 'save-buffer
+	      "d" 'counsel-dired-jump
+	      "/" 'swiper
+	      "ha" 'counsel-apropos
+	      "hf" 'counsel-describe-function
+	      "hv" 'counsel-describe-variable
+	      "hk" 'describe-key
+	      "hi" 'counsel-info-lookup-symbol)))
 
 ;; Projectile
 (use-package projectile
@@ -91,21 +99,28 @@
 	    (use-package counsel-projectile
 	      :config (progn
 			(counsel-projectile-on))))
-  :bind (("C-c d" . projectile-find-dir)
-	 ("C-c j" . projectile-switch-project)
-	 ("C-c f" . projectile-find-file)
-	 ("C-c b" . projectile-switch-to-buffer)))
+  :config (progn
+	    (evil-leader/set-key
+	      "pd" 'projectile-find-dir
+	      "pp" 'projectile-switch-project
+	      "pf" 'projectile-find-file
+	      "pb" 'projectile-switch-to-buffer)))
   
 ;; Magit
 (use-package magit
-  :bind (("C-x g" . magit-status)
-	 ("C-x M-g" . magit-dispatch-popup)))
+  :config (progn
+	    (evil-leader/set-key
+	      "g" 'magit-status
+	      "G" 'magit-dispatch-popup)))
 
 ;; Org
 (use-package org
   :commands org-refile
-  :bind (("C-c a" . org-agenda)
-	 ("C-c o" . my-org-jump))
+  :config (progn
+	    (evil-leader/set-key
+	      "a" 'org-agenda
+	      "c" 'org-capture
+	      "o" 'my-org-jump))
   :init
   (defun my-org-jump ()
     (interactive)
