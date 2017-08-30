@@ -214,3 +214,10 @@
 		       ("j" tags "+LEVEL=1+Jira")
 		       ("P" tags "Project")
 		       ))))))
+
+;; Jira
+(use-package org-jira
+  :config
+  (setq jiralib-url "https://itsjira.bc.edu:8883"
+	org-jira-use-status-as-todo t
+	org-jira-property-overrides (list (cons "labels" "labels"))))
