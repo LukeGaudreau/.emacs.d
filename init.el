@@ -43,8 +43,11 @@
 (temp-buffer-resize-mode)
 
 ;; Editor
-(global-auto-revert-mode 1)
-(setq auto-revert-verbose nil)
+(use-package autorevert
+  :diminish auto-revert-mode
+  :config
+  (global-auto-revert-mode 1)
+  (setq auto-revert-verbose nil))
 (blink-cursor-mode -1)
 (use-package expand-region
   :bind (("C-=" . er/expand-region)))
