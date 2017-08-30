@@ -81,6 +81,21 @@
 	 ("M-i" . counsel-imenu)
 	 ("M-y" . counsel-yank-pop)))
 
+;; Projectile
+(use-package projectile
+  :demand t
+  :diminish ""
+  :config (progn
+	    (projectile-mode)
+	    (setq projectile-find-dir-includes-top-level t)
+	    (use-package counsel-projectile
+	      :config (progn
+			(counsel-projectile-on))))
+  :bind (("C-c d" . projectile-find-dir)
+	 ("C-c j" . projectile-switch-project)
+	 ("C-c f" . projectile-find-file)
+	 ("C-c b" . projectile-switch-to-buffer)))
+  
 ;; Magit
 (use-package magit
   :bind (("C-x g" . magit-status)
