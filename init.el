@@ -29,10 +29,10 @@
     (defun set-selected-frame-dark ()
       (interactive)
       (let ((frame-name (cdr (assq 'name (frame-parameters (selected-frame))))))
-        (call-process-shell-command
-         (format
-          "xprop -f _GTK_THEME_VARIANT 8u -set _GTK_THEME_VARIANT 'dark' -name '%s'"
-          frame-name))))
+	(call-process-shell-command
+	 (format
+	  "xprop -f _GTK_THEME_VARIANT 8u -set _GTK_THEME_VARIANT 'dark' -name '%s'"
+	  frame-name))))
 
     (when (window-system)
       (load-theme 'zerodark t)
