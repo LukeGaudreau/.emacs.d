@@ -77,3 +77,8 @@
 	 ("C-c g" . counsel-git)
 	 ("M-i" . counsel-imenu)
 	 ("M-y" . counsel-yank-pop)))
+
+;; Magit
+(use-package magit
+  :bind (("C-x g" . magit-status)
+	 ("C-x M-g" . magit-dispatch-popup)))
