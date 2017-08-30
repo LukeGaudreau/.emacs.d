@@ -69,6 +69,7 @@
 (use-package counsel
   :demand t
   :bind (("M-x" . counsel-M-x)
+	 ("C-x x" . counsel-M-x)
 	 ("C-x C-f" . counsel-find-file)
 	 ("C-x d" . counsel-dired-jump)
 	 ("C-s" . swiper)
