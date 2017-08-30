@@ -82,3 +82,111 @@
 (use-package magit
   :bind (("C-x g" . magit-status)
 	 ("C-x M-g" . magit-dispatch-popup)))
+
+;; Org
+(use-package org
+  :bind ("C-c a" . org-agenda)
+  :config
+  (progn
+    (setq org-file-apps '((auto-mode . emacs)
+			  ("\\.mm\\'" . "xdg-open %s")
+			  ("\\.x?html?\\'" . "xdg-open %s")
+			  ("\\.pdf\\'" . "xdg-open %s")))
+    (setq org-startup-indented t
+	  org-fontify-done-headline t
+	  org-blank-before-new-entry nil
+	  org-separator-lines 0
+	  org-refile-use-outline-path 'file)
+    (add-hook 'org-mode-hook (lambda ()
+			       (visual-line-mode t)
+			       (setq line-spacing 0.5)
+			       ))
+    ;; Capture
+    (setq org-capture-templates '(("t" "Todo" entry (file "~/notes/Inbox.org")
+				   "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
+				  ("r" "Respond" entry (file "~/notes/Inbox.org")
+				   "* NEXT Respond to %:from on%:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
+				  ("c" "Conversation" entry (file "~/notes/Inbox.org")
+				   "* CONVERSATION with %? :Conversation:\n%U" :clock-in t :clock-resume t)))
+    (setq org-refile-targets '((org-agenda-files :maxlevel . 4)))
+    (setq org-refile-use-outline-path 'file)
+    (setq org-outline-path-complete-in-steps nil))
+
+  ;; After
+  (eval-after-load "org"
+    '(progn
+       (setq org-todo-keywords
+	     (quote ((sequence "NEXT(n)" "TODO(t)" "|" "DONE(d)")
+		     (sequence "TO-DO" "IN-PROGRESS" "|" "DONE")
+		     (sequence "CONVERSATION(c@)""|" "CANCELED(k@)" "SOMEDAY(s@)"))))
+       (setq org-use-fast-todo-selection t
+	     org-use-fast-tag-selection t)
+       ;; Org Tags
+       (setq org-tag-persistent-alist
+	     '(("Primo" . ?p)
+	       ("ILLiad" . ?i)
+	       ("OJS" . ?o)
+	       ("EZProxy" . ?z)
+	       ("Website" . ?w)
+	       ))
+       (setq org-complete-tags-always-offer-all-agenda-tags t)
+       (setq org-bullets-bullet-list '("•"))
+       (setq org-agenda-block-separator 32)
+       (setq org-tags-column -0)
+       (setq org-agenda-tags-column -100)
+       ))
+      (eval-after-load "org-agenda"
+      '(progn
+	 (define-key org-agenda-mode-map (kbd "RET") 'org-agenda-goto)
+	 (define-key org-agenda-mode-map (kbd "TAB") 'org-agenda-switch-to)
+	 (advice-add 'org-agenda-goto :after
+		     (lambda (&rest args)
+		       (org-narrow-to-subtree)))
+
+	 ;; Hide categories from Agenda
+	 (setq org-agenda-prefix-format '((agenda . "%?-12t% s")
+					  (timeline . "  % s")
+					  (todo . "")
+					  (tags . "")
+					  (search . "")))
+	 (setq org-agenda-scheduled-leaders '("" "")
+	       org-agenda-deadline-leaders '("Due:  " "Due in %3d d.: " "%2d d. Overdue: "))
+	 (setq org-agenda-timegrid-use-ampm t
+	       org-agenda-window-setup 'only-window
+	       org-deadline-warning-days 0)
+	 ;; Don't show tags used to generate the agenda. They are implicit in the view.
+	 (setq org-agenda-hide-tags-regexp "Project\\|Inbox\\|LIB*")
+	 (setq org-stuck-projects '("+LEVEL=1-Inbox-Support-Jira" ("NEXT") nil nil))
+	 (setq org-agenda-custom-commands
+	       (quote (("." "Daily"
+			((agenda "/-DONE"
+				 ((org-agenda-overriding-header "Daily Agenda")
+				  (org-agenda-entry-types '(:timestamp :deadline :scheduled))
+				  (org-agenda-skip-deadline-if-done t)
+				  (org-agenda-skip-scheduled-if-done t)
+				  (org-agenda-span 1)
+				  ))
+			 (tags "Inbox/-DONE"
+			       ((org-agenda-overriding-header "Inbox")
+				(org-agenda-ignore-scheduled t)
+				(org-agenda-tags-todo-honor-ignore-options t)
+				(org-agenda-todo-ignore-deadlines t)
+				(org-agenda-todo-ignore-scheduled t)
+				(org-tags-match-list-sublevels nil)
+				))
+			 (todo "NEXT|IN\-PROGRESS"
+			       ((org-agenda-overriding-header "Doing")
+				(org-agenda-ignore-scheduled t)
+				(org-agenda-ignore-deadlines nil)
+				(org-agenda-todo-ignore-deadlines nil)
+				(org-agenda-todo-ignore-scheduled t)
+				(org-agenda-tags-todo-honor-ignore-options t)
+				))
+			 (todo "WAITING"
+			       ((org-agenda-overriding-header "Waiting")))
+			 (stuck ""
+				((org-agenda-overriding-header "Stuck Projects")))
+			 ))
+		       ("j" tags "+LEVEL=1+Jira")
+		       ("P" tags "Project")
+		       ))))))
