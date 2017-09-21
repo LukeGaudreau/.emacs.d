@@ -263,3 +263,29 @@
   (setq jiralib-url "https://itsjira.bc.edu:8883"
 	org-jira-use-status-as-todo t
 	org-jira-property-overrides (list (cons "labels" "labels"))))
+
+
+;; Web
+(use-package web-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.php\\.tpl\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+  )
+
+;; Javascript
+(use-package js2-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+  ;; Better imenu
+  (add-hook 'js2-mode-hook #'js2-imenu-extras-mode))
+
+;; Rainbows
+(use-package rainbow-mode)
+
+;; Vagrant Tramp
+(use-package vagrant-tramp)
+
+;; Gulp
+(use-package gulp-task-runner)
