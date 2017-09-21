@@ -93,8 +93,11 @@
   :demand t
   :config (progn
 	    (evil-leader/set-key
-	      "x" 'counsel-M-x
+	      "<SPC>" 'counsel-M-x
 	      "f" 'counsel-find-file
+	      "b" 'ivy-switch-buffer
+	      "k" 'kill-this-buffer
+	      "K" 'kill-buffer
 	      "s" 'save-buffer
 	      "d" 'counsel-dired-jump
 	      "/" 'swiper
@@ -120,7 +123,7 @@
 	      "pp" 'projectile-switch-project
 	      "pf" 'projectile-find-file
 	      "pb" 'projectile-switch-to-buffer)))
-  
+
 ;; Magit
 (use-package magit
   :config (progn
