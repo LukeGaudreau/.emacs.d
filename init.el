@@ -173,8 +173,8 @@
   (eval-after-load "org"
     '(progn
        (setq org-todo-keywords
-	     (quote ((sequence "NEXT(n)" "TODO(t)" "|" "DONE(d)")
-		     (sequence "TO-DO" "IN-PROGRESS" "|" "DONE")
+	     (quote ((sequence "NEXT(n)" "TODO(t)" "WAITING(w)" "|" "DONE(d)")
+		     (sequence "TO-DO(T)" "IN-PROGRESS(P)" "|" "DONE(D)")
 		     (sequence "CONVERSATION(c@)""|" "CANCELED(k@)" "SOMEDAY(s@)"))))
        (setq org-use-fast-todo-selection t
 	     org-use-fast-tag-selection t)
