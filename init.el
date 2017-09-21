@@ -29,6 +29,8 @@
   :demand t
   :config
   (progn
+    (load-theme 'zerodark t)
+    (zerodark-setup-modeline-format)
     (defun set-selected-frame-dark ()
       (interactive)
       (let ((frame-name (cdr (assq 'name (frame-parameters (selected-frame))))))
@@ -38,12 +40,15 @@
 	  frame-name))))
 
     (when (window-system)
-      (load-theme 'zerodark t)
-      (zerodark-setup-modeline-format)
       (set-selected-frame-dark)
       (setq frame-title-format '(buffer-file-name "%f" ("%b"))))))
 
 (temp-buffer-resize-mode)
+
+(use-package frames-only-mode
+  :config
+  (frames-only-mode))
+
 ;; Evil
 (use-package evil
   :config
